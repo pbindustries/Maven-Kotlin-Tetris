@@ -39,7 +39,6 @@
                     <tiles>
                         <tile>maven.tiles:maven-ktlint-tile:1.0-SNAPSHOT</tile>
                         <tile>maven.tiles:maven-kotlin-compiler-tile:1.0-SNAPSHOT</tile>
-                        <tile>maven.tiles:maven-stock-tile:1.0-SNAPSHOT</tile>
                     </tiles>
                 </configuration>
             </plugin>

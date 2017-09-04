@@ -1,11 +1,10 @@
+package org.maven.tetris
+
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.Point
-import java.awt.event.KeyEvent
-import java.awt.event.KeyListener
 import java.util.ArrayList
 import java.util.Collections
-import javax.swing.JFrame
 import javax.swing.JPanel
 
 class Tetris : JPanel() {
@@ -144,13 +143,13 @@ class Tetris : JPanel() {
     private var currentPiece: Int = 0
     private var rotation: Int = 0
     private val nextPieces = ArrayList<Int>()
-    private var score: Long = 0
+    var score: Long = 0
     private var well: Array<Array<Color>>? = null
 
     // prints border and initializes the dropping piece
-    private fun init() {
+    fun init() {
 
-        well = Array<Array<Color>>(12 , { Array<Color>(24) { Color.BLACK } })
+        well = Array<Array<Color>>(12, { Array<Color>(24) { Color.BLACK } })
         for (i in 0..11) {
             for (j in 0..23) {
                 if (i == 0 || i == 11 || j == 22) {
@@ -238,7 +237,6 @@ class Tetris : JPanel() {
     fun clearRows() {
         var gap: Boolean
         var numClears = 0
-
         var j = 21
         while (j > 0) {
             gap = false
@@ -255,7 +253,6 @@ class Tetris : JPanel() {
             }
             j--
         }
-
         when (numClears) {
             1 -> score += 100
             2 -> score += 300
@@ -282,7 +279,6 @@ class Tetris : JPanel() {
                 g.fillRect(26 * i, 26 * j, 25, 25)
             }
         }
-
         // Display the score
         g.color = Color.WHITE
         g.drawString("" + score, 19 * 12, 25)
@@ -291,51 +287,4 @@ class Tetris : JPanel() {
         printPiece(g)
     }
 
-    companion object {
-
-        private val serialVersionUID = -8715353373678321308L
-
-        @JvmStatic fun main(args: Array<String>) {
-            val f = JFrame("Tetris")
-            f.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-            f.setSize(12 * 26 + 10, 26 * 23 + 25)
-            f.isVisible = true
-
-            val game = Tetris()
-            game.init()
-            f.add(game)
-
-            // Keyboard controls
-            f.addKeyListener(object : KeyListener {
-                override fun keyTyped(e: KeyEvent) {}
-
-                override fun keyPressed(e: KeyEvent) {
-                    when (e.keyCode) {
-                        KeyEvent.VK_UP -> game.rotate(-1)
-                        KeyEvent.VK_DOWN -> game.rotate(+1)
-                        KeyEvent.VK_LEFT -> game.move(-1)
-                        KeyEvent.VK_RIGHT -> game.move(+1)
-                        KeyEvent.VK_SPACE -> {
-                            game.dropDown()
-                            game.score += 1
-                        }
-                    }
-                }
-                override fun keyReleased(e: KeyEvent) {}
-            })
-
-            // Make the falling piece drop every second
-            object : Thread() {
-                override fun run() {
-                    while (true) {
-                        try {
-                            Thread.sleep(1000)
-                            game.dropDown()
-                        } catch (e: InterruptedException) {
-                        }
-                    }
-                }
-            }.start()
-        }
-    }
 }
