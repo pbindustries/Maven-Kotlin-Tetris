@@ -1,0 +1,9 @@
+
+
+.idea/
+MavenTetris.iml
+maven-kotlin-tetris.iml
+target/antrun/
+target/classes/META-INF/
+target/classes/MainKt.class
+target/classes/org/
